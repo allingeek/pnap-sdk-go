@@ -21,15 +21,11 @@ type PNAP struct {
 	ApplicationKey string
 	SharedSecret   string
 	NodeID         string
-	debug          bool
+	Debug          bool
 }
 
 func NewPNAP() PNAP {
 	return PNAP{}
-}
-
-func (r *PNAP) Debug() bool {
-	return r.debug
 }
 
 func (r *PNAP) CreateVirtualMachine(props MachineProperties) (res Response, err error) {

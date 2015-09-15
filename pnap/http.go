@@ -14,7 +14,7 @@ import (
 func (r *PNAP) call(method, path, qs string, inBody interface{}) (out Response, emsg string, retriable bool, eref uint64) {
 	authContext := NewAuthContext(method, path, qs, r.ApplicationKey, r.SharedSecret)
 
-	if r.Debug() {
+	if r.Debug {
 		json, err := json.Marshal(authContext)
 		if err != nil {
 			log.Println("Unable to marshal AuthContext.")
