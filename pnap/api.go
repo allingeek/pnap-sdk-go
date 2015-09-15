@@ -3,6 +3,7 @@ package pnap
 import (
 	"errors"
 	"fmt"
+	"time"
 )
 
 const documentType = "application/vnd.pncp.v.1.0+json"
@@ -10,7 +11,7 @@ const documentType = "application/vnd.pncp.v.1.0+json"
 // Interfaces
 
 type API interface {
-	CreateVirtualMachine(props MachineProperties) (r Response, err error)
+	CreateVirtualMachine(props MachineProperties) (r Future, err error)
 }
 
 // API implementation
@@ -22,13 +23,14 @@ type PNAP struct {
 	SharedSecret   string
 	NodeID         string
 	Debug          bool
+	Backoff        time.Duration
 }
 
 func NewPNAP() PNAP {
 	return PNAP{}
 }
 
-func (r *PNAP) CreateVirtualMachine(props MachineProperties) (res Response, err error) {
+func (r *PNAP) CreateVirtualMachine(props MachineProperties) (res Future, err error) {
 	path := fmt.Sprintf(`/account/%s/node/%s/device/virtualmachine`, r.AccountID, r.NodeID)
 	var (
 		emsg     string
